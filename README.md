@@ -18,18 +18,15 @@ cp .env.example .env
 
 ## Convención de ramas
 
-Las ramas se nombran con el formato **`tipo/modulo`**:
+Las ramas se nombran con el formato **`tipo/nombre-desarrollador-descripcion-modulo`**:
 
 ```
-tipo/modulo
+tipo/nombre-desarrollador-descripcion-modulo
 ```
 
 Ejemplos:
 
-- `feat/auth`
-- `feat/sales`
-- `fix/catalog`
-- `chore/deps`
+- `feat/amethdev-auth-module` 
 
 ### Tipos de rama
 

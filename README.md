@@ -16,56 +16,6 @@ Copia el archivo de variables de entorno y ajústalo según sea necesario:
 cp .env.example .env
 ```
 
-## Convención de ramas
-
-Las ramas se nombran con el formato **`tipo/nombre-desarrollador-descripcion-modulo`**:
-
-```
-tipo/nombre-desarrollador-descripcion-modulo
-```
-
-Ejemplos:
-
-- `feat/amethdev-auth-module` 
-
-### Tipos de rama
-
-| Tipo     | Uso                                         |
-| -------- | ------------------------------------------- |
-| `feat`   | Nueva funcionalidad                         |
-| `fix`    | Corrección de errores                       |
-| `refactor` | Cambios de código sin alterar comportamiento |
-| `docs`   | Cambios en documentación                    |
-| `chore`  | Tareas de mantenimiento                      |
-| `test`   | Cambios en pruebas                          |
-
-## Convención de commits
-
-Los mensajes de commit siguen el formato **`tipo: descripcion`** en minúsculas:
-
-```
-tipo: descripcion
-```
-
-Ejemplos:
-
-- `feat: agregar modelo User y rol de usuario en Prisma`
-- `fix: corregir puerto de conexion de Prisma a PostgreSQL`
-- `refactor: simplificar configuracion del datasource`
-- `docs: actualizar README con instrucciones de instalacion`
-
-### Tipos de commit
-
-| Tipo      | Uso                                          |
-| --------- | -------------------------------------------- |
-| `feat`    | Nueva funcionalidad                          |
-| `fix`     | Corrección de errores                        |
-| `refactor`| Cambios de código sin alterar comportamiento |
-| `docs`    | Cambios en documentación                     |
-| `chore`   | Tareas de mantenimiento                       |
-| `test`    | Cambios en pruebas                           |
-| `style`   | Cambios de formato sin afectar lógica         |
-
 ### Iniciar el servidor en desarrollo
 
 ```bash

@@ -26,52 +26,58 @@ El servidor quedará disponible en `http://localhost:3000`.
 
 ## Estructura del Proyecto EDA
 
-A continuación se describe la estructura de carpetas por capas:
+A continuación se presenta el árbol de la estructura de carpetas:
 
-### Capa `src/domain/`
-Reglas de negocio puras, independientes de eventos o librerías:
-- `entities/` - Modelos de dominio (ej. Order, User, Product)
-- `value-objects/` - Objetos de valor inmutables (ej. Money, Email)
+```
+src/
+├── domain/          # Reglas de negocio puras, independientes de eventos o librerías:
+│   ├── entities/    # Modelos de dominio (ej. Order, User, Product)
+│   └── value-objects/ # Objetos de valor inmutables (ej. Money, Email)
+├── application/     # Casos de uso y lógica de aplicación:
+│   ├── use-cases/   # Coordinación de negocio (ej. CreateOrderUseCase, RegisterUser)
+│   └── dtos/        # Objetos de transferencia de datos para entrada/salida de casos de uso
+├── errors/          # Manejo de errores personalizados y filtros de error
+├── events/          # Definición y contratos de eventos:
+│   ├── definitions/ # Clases/schemas de eventos (ej. OrderCreatedEvent.ts)
+│   └── types/       # Tipos o interfaces compartidas para eventos
+├── messaging/       # Configuración del Message Broker (Kafka, RabbitMQ, etc.):
+│   ├── client.ts    # Conexión al Message Broker
+│   ├── publisher.ts # Lógica genérica para publicar eventos
+│   └── subscriber.ts# Lógica genérica para registrar suscriptores
+├── middlewares/     # Middlewares HTTP y de procesamiento:
+│   ├── error-handler.ts # Manejador global de errores HTTP
+│   ├── auth.ts        # Middleware de autenticación
+│   └── validation.ts  # Middleware de validación de entradas
+├── modules/         # Organización por dominio o funcionalidad (cada módulo es autónomo):
+│   ├── orders/      # Módulo de pedidos
+│   │   ├── producers/ # Emisión de eventos (ej. OrderCreatedProducer)
+│   │   ├── consumers/ # Reacción a eventos (ej. SendEmailOnOrderCreated)
+│   │   └── handlers/  # Manejadores específicos de la lógica del evento
+│   ├── payments/    # Módulo de pagos
+│   │   ├── producers/ # Emisores de eventos de pago
+│   │   └── consumers/ # Consumidores de eventos de pago
+│   └── auth/        # Módulo de autenticación
+│       ├── producers/ # Eventos de auth (ej. UserRegistered, TokenRefreshed)
+│       ├── consumers/ # Suscriptores a eventos de auth
+│       └── handlers/  # Lógica específica de autenticación
+├── infrastructure/  # Adaptadores externos (BD, APIs, servicios terceros):
+│   ├── database/    # Conexiones y repositorios (ORM, SQL/NoSQL)
+│   ├── external-services/ # Clientes HTTP externos
+│   └── http/        # Servidores HTTP y configuración
+└── main.ts          # Punto de entrada / composición de dependencias (Bootstrap)
+```
 
-### Capa `src/application/`
-Casos de uso y lógica de aplicación:
-- `use-cases/` - Coordinación de negocio (ej. CreateOrderUseCase, RegisterUser)
-- `dtos/` - Objetos de transferencia de datos para entrada/salida de casos de uso
+### Descripciones de carpetas:
 
-### Capa `src/events/`
-Definición y contratos de eventos:
-- `definitions/` - Clases/schemas de eventos (ej. OrderCreatedEvent.ts, UserRegisteredEvent.ts)
-- `types/` - Tipos o interfaces compartidas para eventos
-
-### Capa `src/messaging/`
-Configuración del Message Broker (Kafka, RabbitMQ, etc.):
-- `client.ts` - Conexión al Message Broker
-- `publisher.ts` - Lógica genérica para publicar eventos
-- `subscriber.ts` - Lógica genérica para registrar suscriptores
-
-### Capa `src/modules/`
-Organización por dominio o funcionalidad (cada módulo es autónomo):
-- `orders/` - Módulo de pedidos
-  - `producers/` - Emisión de eventos (ej. OrderCreatedProducer)
-  - `consumers/` - Reacción a eventos (ej. SendEmailOnOrderCreated)
-  - `handlers/` - Manejadores específicos de la lógica del evento
-- `payments/` - Módulo de pagos
-  - `producers/` - Emisores de eventos de pago
-  - `consumers/` - Consumidores de eventos de pago
-- `auth/` - Módulo de autenticación (añadido recientemente)
-  - `producers/` - Eventos de auth (ej. UserRegistered, TokenRefreshed)
-  - `consumers/` - Suscriptores a eventos de auth
-  - `handlers/` - Lógica específica de autenticación
-
-### Capa `src/infrastructure/`
-Adaptadores externos (BD, APIs, servicios terceros):
-- `database/` - Conexiones y repositorios (ORM, SQL/NoSQL)
-- `external-services/` - Clientes HTTP externos
-
-### Raíz del proyecto
-- `src/main.ts` - Punto de entrada / composición de dependencias (Bootstrap)
-- `tests/` - Pruebas unitarias e integración por productor/consumidor
-- `package.json` y `tsconfig.json` - Configuración del proyecto
+- `domain/` — Regla de negocio pura, contiene entidades y objetos de valor sin dependencias externas.
+- `application/` — Casos de uso que orquestan la lógica de negocio.
+- `errors/` — Manejo de errores personalizados y filtros de error a nivel de API.
+- `events/` — Contratos y definiciones de eventos que fluyen mediante el patrón EDA.
+- `messaging/` — Configuración y lógica de conexión, publicación y suscripción al broker de mensajes.
+- `middlewares/` — Middlewares Express/Nest para manejo de errores, autenticación y validación de entradas.
+- `modules/` — Agrupación funcional por dominio (orders, payments, auth), cada uno con sus propios producers, consumers y handlers.
+- `infrastructure/` — Adaptadores externos: bases de datos, servicios third‑party y servidores HTTP.
+- `main.ts` — Punto de entrada que compone las dependencias y arranca la aplicación.
 
 ---
 

@@ -20,5 +20,14 @@ Describe los cambios que has realizado y la motivación detrás de ellos.
 - [ ] El mensaje de commit sigue el formato `tipo: descripcion` (según CONTRIBUTING.md)
 - [ ] Solicitado al menos 1 revisor teammate
 
+## Issue vinculada
+
+Referencia la Issue relacionada con este PR:
+
+- `Fixes #N`: Si este PR completa la tarea y debe cerrar la Issue.
+- `Refs #N`: Si este PR está relacionado, pero no completa la tarea.
+
+**Ejemplo:** `Fixes #12`
+
 ## Notas adicionales
 Añade cualquier contexto adicional, capturas de pantalla o instrucciones especiales aquí.

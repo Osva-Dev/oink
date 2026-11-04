@@ -7,6 +7,7 @@ Una API backend que permita a una persona registrar su dinero, controlar presupu
 ## Requisitos previos
 - [Node.js](https://nodejs.org/) (>= 24)
 - [pnpm](https://pnpm.io/es) (12.15.0)
+- [Docker](https://www.docker.com/) y Docker Compose (opcional, para levantar todo en contenedores)
 
 ## Configuración del entorno 
 
@@ -23,6 +24,37 @@ pnpm dev
 ```
 
 El servidor quedará disponible en `http://localhost:3000`.
+
+### Iniciar todo con Docker
+
+El `docker-compose.yml` levanta la API en modo desarrollo y PostgreSQL con un volumen persistente.
+
+```bash
+cp .env.example .env
+docker compose up --build
+```
+
+La API quedará disponible en `http://localhost:3000` y PostgreSQL en `localhost:5432` con las credenciales definidas en `.env` (`POSTGRES_USER`, `POSTGRES_PASSWORD`, `POSTGRES_DB`).
+
+Si el puerto `5432` ya está ocupado en tu máquina (por ejemplo, por un PostgreSQL local), cambia `POSTGRES_PORT` en `.env` a otro puerto libre, por ejemplo `POSTGRES_PORT=55432`. La conexión interna desde la API no cambia.
+
+Dentro de la red de Docker, la aplicación se conecta a PostgreSQL usando `postgres:5432` como host (la variable `DATABASE_URL` se configura automáticamente en el compose). Desde tu máquina usa `localhost:5432`.
+
+Comandos útiles:
+
+```bash
+docker compose up -d          # levantar en segundo plano
+docker compose logs -f app    # ver logs de la API
+docker compose down           # detener contenedores
+docker compose down -v        # detener y borrar datos de PostgreSQL
+```
+
+Para construir la imagen de producción usa el target `production`:
+
+```bash
+docker build --target production -t oink .
+docker run --env-file .env -p 3000:3000 oink
+```
 
 ## Estructura del Proyecto EDA
 
